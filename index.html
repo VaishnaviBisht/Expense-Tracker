@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== Sidebar ===== -->
+  <aside class="side">
+    <div class="brand"><span class="logo">💸</span><b>Expense Tracker</b></div>
+    <nav>
+      <button class="nav active" data-view="dashboard">📊 Dashboard</button>
+      <button class="nav" data-view="transactions">🧾 Transactions</button>
+      <button class="nav" data-view="budgets">🎯 Budgets</button>
+    </nav>
+    <div class="side-bottom">
+      <button class="nav" id="demoBtn">✨ Load demo data</button>
+      <button class="nav" id="themeBtn">🌙 Dark mode</button>
+    </div>
+  </aside>
+
+  <div class="content">
+    <!-- ===== Top bar ===== -->
+    <header class="topbar">
+      <div><h1 id="pageTitle">Dashboard</h1><small id="today"></small></div>
+      <div class="topbar-right">
+        <input type="month" id="month" title="Choose month (clear for all time)">
+        <button id="newBtn">+ New transaction</button>
+      </div>
+    </header>
+
+    <!-- ===== PAGE 1: Dashboard ===== -->
+    <section id="v-dashboard" class="view">
+      <div class="hero">
+        <div class="hero-left"><p>Balance (income − spending)</p><h2 id="balance">₹0</h2><p id="hint"></p></div>
+        <div class="hero-right"><p>Monthly budget</p><div class="bar"><div id="barFill"></div></div><p id="budgetMsg"></p></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span class="chip c1">⬇️</span><div><p>Income</p><h3 id="income">₹0</h3></div></div>
+        <div class="stat"><span class="chip c2">⬆️</span><div><p>Spent</p><h3 id="spent">₹0</h3></div></div>
+        <div class="stat"><span class="chip c3">🏆</span><div><p>Top Category</p><h3 id="topCat">—</h3></div></div>
+        <div class="stat"><span class="chip c4">🧾</span><div><p>Transactions</p><h3 id="count">0</h3></div></div>
+      </div>
+
+      <div class="two">
+        <div class="card"><h3>Last 7 days</h3><div id="week"></div></div>
+        <div class="card">
+          <h3>Spending by category</h3>
+          <div class="chart">
+            <div id="donut"><div class="hole"><small>Spent</small><b id="donutTotal">₹0</b></div></div>
+            <div id="legend"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card"><h3>Recent transactions</h3><ul id="recent"></ul></div>
+    </section>
+
+    <!-- ===== PAGE 2: Transactions ===== -->
+    <section id="v-transactions" class="view hidden">
+      <div class="card">
+        <div class="tools">
+          <input type="text" id="search" placeholder="🔍 Search...">
+          <select id="fType"><option value="All">All types</option><option value="income">Income</option><option value="expense">Expense</option></select>
+          <select id="fCat"><option value="All">All categories</option></select>
+          <button id="exportBtn" class="ghost">⬇ Export CSV</button>
+          <button id="clearBtn" class="danger">Clear all</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Title</th><th>Category</th><th class="r">Amount</th><th></th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PAGE 3: Budgets ===== -->
+    <section id="v-budgets" class="view hidden">
+      <div class="card">
+        <h3>Overall monthly budget</h3>
+        <div class="row"><input type="number" id="budget" placeholder="e.g. 10000" min="1"><button id="budgetBtn">Set budget</button></div>
+        <div class="bar thick"><div id="bFill"></div></div>
+        <p id="bMsg" class="muted"></p>
+      </div>
+      <div class="card"><h3>Category limits</h3><div id="catBudgets"></div></div>
+    </section>
+  </div>
+</div>
+
+<!-- ===== Add / Edit popup ===== -->
+<dialog id="dlg">
+  <h3 id="dlgTitle">New transaction</h3>
+  <label>Type</label>
+  <select id="type"><option value="expense">Expense</option><option value="income">Income</option></select>
+  <label>Title</label><input type="text" id="title" placeholder="What was it for?">
+  <label>Amount (₹)</label><input type="number" id="amount" placeholder="0" min="1">
+  <label>Category</label><select id="category"></select>
+  <label>Date</label><input type="date" id="date">
+  <p id="error"></p>
+  <div class="row end"><button id="cancelBtn" class="ghost">Cancel</button><button id="saveBtn">Save</button></div>
+</dialog>
+
+<div id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
